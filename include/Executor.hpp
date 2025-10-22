@@ -31,7 +31,7 @@ class Executor {
     // every child class should have this method, returns current pose of car
     virtual Pose Query(void) const noexcept = 0;
 
-    //pure virtual method, execute string command 
+    // pure virtual method, execute string command
     virtual void Execute(const std::string &commands) noexcept = 0;
 };
 } // namespace adas

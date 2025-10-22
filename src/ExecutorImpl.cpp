@@ -3,7 +3,8 @@
 #include <new>
 
 namespace adas{
-    ExecutorImpl::ExecutorImpl(const Pose &pose) noexcept {}
+    //:pose(pose) assign the param pose with current pose
+    ExecutorImpl::ExecutorImpl(const Pose &pose) noexcept :pose(pose) {}
 
     //const means that don't change the member variables
     Pose ExecutorImpl::Query(void) const noexcept{

@@ -28,7 +28,7 @@ class Executor {
 
   public:
     // query the pose of car, pure virtual method(=0)
-    // every child class should have this method, interface should be the same
+    // every child class should have this method, returns current pose of car
     virtual Pose Query(void) const noexcept = 0;
 };
 } // namespace adas

@@ -18,4 +18,8 @@ namespace adas{
         //it's usually used in namespace new and std::nothrow
         //it returns null ptr instead of std::bad_alloc error
     }
+
+    void ExecutorImpl::Execute(const std::string &command) noexcept{
+        
+    }
 }

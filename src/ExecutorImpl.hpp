@@ -25,6 +25,8 @@ class ExecutorImpl : public Executor { // public child class
 	// query the pose of car, the detail implementation of parent Query method
 	Pose Query(void) const noexcept override;
 
+	void Execute(const std::string &command) noexcept override;
+
   private:
 	// private member: pose of car
 	Pose pose;

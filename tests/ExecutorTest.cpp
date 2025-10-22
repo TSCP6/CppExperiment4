@@ -39,4 +39,16 @@ TEST(ExecutorTest, should_return_default_pose_when_without_init_and_command) {
     const Pose target({0, 0, 'N'});
     ASSERT_EQ(target, executor->Query());
 }
+
+TEST(ExecutorTest, should_return_x_plus_1_given_command_is_M_and_face_is_E){
+    //given
+    std::unique_ptr<Executor> executor(Executor::NewExecutor({0, 0, 'E'}));
+
+    //when
+    executor->Execute("M");
+
+    //then
+    const Pose target({1, 0, 'E'}); //result of correct implementation
+    ASSERT_EQ(target, executor->Query());
+}
 } // namespace adas

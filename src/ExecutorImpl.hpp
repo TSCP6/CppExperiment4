@@ -5,7 +5,7 @@
 
 namespace adas {
 // Detail executor implementation
-class ExecutorImpl final: public Executor { // public child class, final means can't be inherited
+class ExecutorImpl final : public Executor { // public child class, final means can't be inherited
   public:
     // constructor
     explicit ExecutorImpl(const Pose &pose) noexcept;
@@ -28,45 +28,48 @@ class ExecutorImpl final: public Executor { // public child class, final means c
     void Execute(const std::string &command) noexcept override;
 
   private:
-    //define a nested class
-    class MoveCommand final
-    {
-    public:
-    //operating move function needs ExecutorImpl& executor
-      void DoOperate(ExecutorImpl &executor) const noexcept{
-        executor.Move();
-      }
-    };    
+    class ICommand {
+      public:
+        virtual ~ICommand() = default;
+        virtual void DoOperate(ExecutorImpl &ExecutorImpl) const noexcept = 0 ;
+    };
 
-    class TurnLeftCommand final
-    {
-    public:
-    //operating move function needs ExecutorImpl& executor
-      void DoOperate(ExecutorImpl &executor) const noexcept{
-        executor.TurnLeft();
-      }
-    };    
+    // define a nested class
+    class MoveCommand final : public ICommand {
+      public:
+        // operating move function needs ExecutorImpl& executor
+        void DoOperate(ExecutorImpl &executor) const noexcept override {
+            executor.Move();
+        }
+    };
 
-    class TurnRightCommand final
-    {
-    public:
-    //operating move function needs ExecutorImpl& executor
-      void DoOperate(ExecutorImpl &executor) const noexcept{
-        executor.TurnRight();
-      }
-    };    
+    class TurnLeftCommand final : public ICommand {
+      public:
+        // operating move function needs ExecutorImpl& executor
+        void DoOperate(ExecutorImpl &executor) const noexcept override {
+            executor.TurnLeft();
+        }
+    };
+
+    class TurnRightCommand final : public ICommand {
+      public:
+        // operating move function needs ExecutorImpl& executor
+        void DoOperate(ExecutorImpl &executor) const noexcept override {
+            executor.TurnRight();
+        }
+    };
 
   private:
     // private member: pose of car
     Pose pose;
 
-    //is fasten speed 
+    // is fasten speed
     bool isFast;
 
-    //move function
+    // move function
     void Move(void) noexcept;
 
-    //turn functions
+    // turn functions
     void TurnLeft(void) noexcept;
 
     void TurnRight(void) noexcept;

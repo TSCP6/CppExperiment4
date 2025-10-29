@@ -23,9 +23,12 @@ Executor *Executor::NewExecutor(const Pose &pose) noexcept {
 
 void ExecutorImpl::Execute(const std::string &commands) noexcept {
     for (const auto cmd : commands) {
+        std::unique_ptr<ICommand> cmder;
+        std::unique_ptr<MoveCommand> Mcmder;
         if (cmd == 'M') {
             //use unique pointer for MoveCommand instantiation, don't worry about delete
-            std::unique_ptr<MoveCommand>cmder = std::make_unique<MoveCommand>();
+            // std::unique_ptr<MoveCommand>cmder = std::make_unique<MoveCommand>();
+            cmder = std::make_unique<MoveCommand>();
             if (!isFast) {
                 //*this is the instantiated object
                 cmder->DoOperate(*this);
@@ -34,22 +37,24 @@ void ExecutorImpl::Execute(const std::string &commands) noexcept {
                 cmder->DoOperate(*this);
             }
         } else if (cmd == 'L') {
-            std::unique_ptr<MoveCommand> Mcmder = std::make_unique<MoveCommand>();
-            std::unique_ptr<TurnLeftCommand>Lcmder = std::make_unique<TurnLeftCommand>();
+            // std::unique_ptr<MoveCommand> Mcmder = std::make_unique<MoveCommand>();
+            // std::unique_ptr<TurnLeftCommand>Lcmder = std::make_unique<TurnLeftCommand>();
+            cmder = std::make_unique<TurnLeftCommand>();
             if (!isFast) {
-                Lcmder->DoOperate(*this);
+                cmder->DoOperate(*this);
             } else {
                 Mcmder->DoOperate(*this);
-                Lcmder->DoOperate(*this);
+                cmder->DoOperate(*this);
             }
         } else if (cmd == 'R') {
-            std::unique_ptr<MoveCommand> Mcmder = std::make_unique<MoveCommand>();
-            std::unique_ptr<TurnRightCommand> Rcmder = std::make_unique<TurnRightCommand>();
+            // std::unique_ptr<MoveCommand> Mcmder = std::make_unique<MoveCommand>();
+            // std::unique_ptr<TurnRightCommand> Rcmder = std::make_unique<TurnRightCommand>();
+            cmder = std::make_unique<TurnRightCommand>();
             if (!isFast) {
-                Rcmder->DoOperate(*this);
+                cmder->DoOperate(*this);
             } else {
                 Mcmder->DoOperate(*this);
-                Rcmder->DoOperate(*this);
+                cmder->DoOperate(*this);
             }
         } else if (cmd == 'F') {
             isFast = !isFast;

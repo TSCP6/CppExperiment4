@@ -1,6 +1,7 @@
 #include "ExecutorImpl.hpp"
 
 #include <new>
+#include <memory>
 
 namespace adas {
 //: pose(pose) assign the param pose with current pose
@@ -23,25 +24,32 @@ Executor *Executor::NewExecutor(const Pose &pose) noexcept {
 void ExecutorImpl::Execute(const std::string &commands) noexcept {
     for (const auto cmd : commands) {
         if (cmd == 'M') {
+            //use unique pointer for MoveCommand instantiation, don't worry about delete
+            std::unique_ptr<MoveCommand>cmder = std::make_unique<MoveCommand>();
             if (!isFast) {
-                Move();
+                //*this is the instantiated object
+                cmder->DoOperate(*this);
             } else {
-                Move();
-                Move();
+                cmder->DoOperate(*this);
+                cmder->DoOperate(*this);
             }
         } else if (cmd == 'L') {
+            std::unique_ptr<MoveCommand> Mcmder = std::make_unique<MoveCommand>();
+            std::unique_ptr<TurnLeftCommand>Lcmder = std::make_unique<TurnLeftCommand>();
             if (!isFast) {
-                TurnLeft();
+                Lcmder->DoOperate(*this);
             } else {
-                Move();
-                TurnLeft();
+                Mcmder->DoOperate(*this);
+                Lcmder->DoOperate(*this);
             }
         } else if (cmd == 'R') {
+            std::unique_ptr<MoveCommand> Mcmder = std::make_unique<MoveCommand>();
+            std::unique_ptr<TurnRightCommand> Rcmder = std::make_unique<TurnRightCommand>();
             if (!isFast) {
-                TurnRight();
+                Rcmder->DoOperate(*this);
             } else {
-                Move();
-                TurnRight();
+                Mcmder->DoOperate(*this);
+                Rcmder->DoOperate(*this);
             }
         } else if (cmd == 'F') {
             isFast = !isFast;

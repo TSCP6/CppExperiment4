@@ -28,6 +28,35 @@ class ExecutorImpl final: public Executor { // public child class, final means c
     void Execute(const std::string &command) noexcept override;
 
   private:
+    //define a nested class
+    class MoveCommand final
+    {
+    public:
+    //operating move function needs ExecutorImpl& executor
+      void DoOperate(ExecutorImpl &executor) const noexcept{
+        executor.Move();
+      }
+    };    
+
+    class TurnLeftCommand final
+    {
+    public:
+    //operating move function needs ExecutorImpl& executor
+      void DoOperate(ExecutorImpl &executor) const noexcept{
+        executor.TurnLeft();
+      }
+    };    
+
+    class TurnRightCommand final
+    {
+    public:
+    //operating move function needs ExecutorImpl& executor
+      void DoOperate(ExecutorImpl &executor) const noexcept{
+        executor.TurnRight();
+      }
+    };    
+
+  private:
     // private member: pose of car
     Pose pose;
 

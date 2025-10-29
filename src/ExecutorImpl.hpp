@@ -5,7 +5,7 @@
 
 namespace adas {
 // Detail executor implementation
-class ExecutorImpl : public Executor { // public child class
+class ExecutorImpl final: public Executor { // public child class, final means can't be inherited
   public:
     // constructor
     explicit ExecutorImpl(const Pose &pose) noexcept;
@@ -30,5 +30,16 @@ class ExecutorImpl : public Executor { // public child class
   private:
     // private member: pose of car
     Pose pose;
+
+    //is fasten speed 
+    bool isFast;
+
+    //move function
+    void Move(void) noexcept;
+
+    //turn functions
+    void TurnLeft(void) noexcept;
+
+    void TurnRight(void) noexcept;
 };
 } // namespace adas

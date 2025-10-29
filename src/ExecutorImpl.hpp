@@ -31,7 +31,14 @@ class ExecutorImpl final : public Executor { // public child class, final means 
     class ICommand {
       public:
         virtual ~ICommand() = default;
-        virtual void DoOperate(ExecutorImpl &ExecutorImpl) const noexcept = 0 ;
+        virtual void DoOperate(ExecutorImpl &ExecutorImpl) const noexcept = 0;
+    };
+
+    class FastCommand final : public ICommand{
+      public:
+        virtual void DoOperate(ExecutorImpl &executor) const noexcept override{
+          executor.Fast();
+        }
     };
 
     // define a nested class
@@ -64,8 +71,9 @@ class ExecutorImpl final : public Executor { // public child class, final means 
     Pose pose;
 
     // is fasten speed
-    bool isFast;
+    bool fast{false};
 
+  private:
     // move function
     void Move(void) noexcept;
 
@@ -73,5 +81,9 @@ class ExecutorImpl final : public Executor { // public child class, final means 
     void TurnLeft(void) noexcept;
 
     void TurnRight(void) noexcept;
+
+    void Fast(void) noexcept; // switch to fast condition
+
+    bool isFast(void) const noexcept; // query the current fast condition
 };
 } // namespace adas

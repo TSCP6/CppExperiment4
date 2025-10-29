@@ -5,7 +5,7 @@
 
 namespace adas {
 //: pose(pose) assign the param pose with current pose
-ExecutorImpl::ExecutorImpl(const Pose &pose) noexcept : pose(pose), isFast(false) {
+ExecutorImpl::ExecutorImpl(const Pose &pose) noexcept : pose(pose) {
 }
 
 // const means that don't change the member variables
@@ -29,7 +29,7 @@ void ExecutorImpl::Execute(const std::string &commands) noexcept {
             //use unique pointer for MoveCommand instantiation, don't worry about delete
             // std::unique_ptr<MoveCommand>cmder = std::make_unique<MoveCommand>();
             cmder = std::make_unique<MoveCommand>();
-            if (!isFast) {
+            if (!fast) {
                 //*this is the instantiated object
                 cmder->DoOperate(*this);
             } else {
@@ -40,7 +40,7 @@ void ExecutorImpl::Execute(const std::string &commands) noexcept {
             // std::unique_ptr<MoveCommand> Mcmder = std::make_unique<MoveCommand>();
             // std::unique_ptr<TurnLeftCommand>Lcmder = std::make_unique<TurnLeftCommand>();
             cmder = std::make_unique<TurnLeftCommand>();
-            if (!isFast) {
+            if (!fast) {
                 cmder->DoOperate(*this);
             } else {
                 Mcmder->DoOperate(*this);
@@ -50,14 +50,15 @@ void ExecutorImpl::Execute(const std::string &commands) noexcept {
             // std::unique_ptr<MoveCommand> Mcmder = std::make_unique<MoveCommand>();
             // std::unique_ptr<TurnRightCommand> Rcmder = std::make_unique<TurnRightCommand>();
             cmder = std::make_unique<TurnRightCommand>();
-            if (!isFast) {
+            if (!fast) {
                 cmder->DoOperate(*this);
             } else {
                 Mcmder->DoOperate(*this);
                 cmder->DoOperate(*this);
             }
         } else if (cmd == 'F') {
-            isFast = !isFast;
+            cmder = std::make_unique<FastCommand>();
+            cmder->DoOperate(*this);
         }
     }
 }
@@ -96,6 +97,14 @@ void ExecutorImpl::TurnRight() noexcept {
     } else if (pose.heading == 'S') {
         pose.heading = 'W';
     }
+}
+
+void ExecutorImpl::Fast() noexcept {
+    fast = !fast;
+}
+
+bool ExecutorImpl::isFast() const noexcept {
+    return fast;
 }
 
 } // namespace adas

@@ -1,15 +1,16 @@
 #pragma once
 
+#include "Direction.hpp"
 #include "Executor.hpp"
 
 namespace adas {
 class PoseHandler final {
-    public:
-    PoseHandler(const Pose& pose) noexcept;
-    PoseHandler(const PoseHandler&) = delete;
-    PoseHandler& operator=(const PoseHandler&) = delete;
+  public:
+    PoseHandler(const Pose &pose) noexcept;
+    PoseHandler(const PoseHandler &) = delete;
+    PoseHandler &operator=(const PoseHandler &) = delete;
 
-    public:
+  public:
     void Move(void) noexcept;
     void TurnLeft(void) noexcept;
     void TurnRight(void) noexcept;
@@ -18,8 +19,9 @@ class PoseHandler final {
     Pose Query(void) const noexcept;
 
   private:
-    Pose pose; 
-    bool fast{false}; //wether in fast state
+    Point point;
+    const Direction *facing;
+    bool fast{false}; // wether in fast state
 };
 
 } // namespace adas

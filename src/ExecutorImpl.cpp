@@ -24,7 +24,7 @@ Executor *Executor::NewExecutor(const Pose &pose) noexcept {
 }
 
 void ExecutorImpl::Execute(const std::string &commands) noexcept {
-    std::unordered_map<char, std::unique_ptr<MoveCommand>> cmderMap;
+    std::unordered_map<char, std::unique_ptr<ICommand>> cmderMap;
     
     //finish the map between command and operator
     cmderMap.emplace('M', std::make_unique<MoveCommand>());
@@ -40,4 +40,5 @@ void ExecutorImpl::Execute(const std::string &commands) noexcept {
             it->second->DoOperate(poseHandler);
         }
     }
+}
 } // namespace adas

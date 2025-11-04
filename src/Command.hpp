@@ -13,7 +13,7 @@ namespace adas {
 
 class FastCommand final {
   public:
-    const std::function<void(PoseHandler &PoseHandler)> operate = [](PoseHandler &poseHandler) noexcept {
+    void operator()(PoseHandler &poseHandler) const noexcept {
         poseHandler.Fast();
     };
 };
@@ -28,7 +28,13 @@ class MoveCommand final {
     //     }
     //     poseHandler.Move();
     // }
-    const std::function<void(PoseHandler &PoseHandler)> operate = [](PoseHandler &poseHandler) noexcept {
+    // const std::function<void(PoseHandler &PoseHandler)> operate = [](PoseHandler &poseHandler) noexcept {
+    //     if (poseHandler.IsFast()) {
+    //         poseHandler.Move();
+    //     }
+    //     poseHandler.Move();
+    // };
+    void operator()(PoseHandler &poseHandler) const noexcept {
         if (poseHandler.IsFast()) {
             poseHandler.Move();
         }
@@ -39,7 +45,7 @@ class MoveCommand final {
 class TurnLeftCommand final {
   public:
     // operating move function needs ExecutorImpl& executor
-    const std::function<void(PoseHandler &PoseHandler)> operate = [](PoseHandler &poseHandler) noexcept {
+    void operator()(PoseHandler &poseHandler) const noexcept {
         if (poseHandler.IsFast()) {
             poseHandler.Move();
         }
@@ -50,7 +56,7 @@ class TurnLeftCommand final {
 class TurnRightCommand final {
   public:
     // operating move function needs ExecutorImpl& executor
-    const std::function<void(PoseHandler &PoseHandler)> operate = [](PoseHandler &poseHandler) noexcept {
+    void operator()(PoseHandler &poseHandler) const noexcept {
         if (poseHandler.IsFast()) {
             poseHandler.Move();
         }

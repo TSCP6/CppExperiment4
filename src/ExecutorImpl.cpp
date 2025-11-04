@@ -27,14 +27,10 @@ void ExecutorImpl::Execute(const std::string &commands) noexcept {
     std::unordered_map<char, std::function<void(PoseHandler& PoseHandler)>> cmderMap;
     
     //finish the map between command and operator
-    MoveCommand moveCommand;
-    cmderMap.emplace('M', moveCommand.operate);
-    TurnLeftCommand turnLeftCommand;
-    cmderMap.emplace('L', turnLeftCommand.operate);
-    TurnRightCommand turnRightCommand;
-    cmderMap.emplace('R', turnRightCommand.operate);
-    FastCommand fastCommand;
-    cmderMap.emplace('F', fastCommand.operate);
+    cmderMap.emplace('M', MoveCommand());
+    cmderMap.emplace('L', TurnLeftCommand());
+    cmderMap.emplace('R', TurnRightCommand());
+    cmderMap.emplace('F', FastCommand());
 
     for (const auto cmd : commands) {
         const auto it = cmderMap.find(cmd);

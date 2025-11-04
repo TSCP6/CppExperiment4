@@ -30,8 +30,12 @@ namespace adas{
         
     }
 
-    const Point& Direction::Move() const noexcept {
+    const Point& Direction::Forward() const noexcept {
         return points[index];
+    }
+    
+    const Point& Direction::Backward() const noexcept {
+        return points[(index + 2) % 4];
     }
 
     const Direction& Direction::LeftOne() const noexcept {

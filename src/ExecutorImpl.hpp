@@ -30,25 +30,5 @@ class ExecutorImpl final : public Executor { // public child class, final means 
 
   private:
     PoseHandler poseHandler; //状态管理类
-  
-  // private:
-    //   // private member: pose of car
-    //   Pose pose;
-
-    //   // is fasten speed
-    //   bool fast{false};
-
-    // public:
-    //   // move function
-    //   void Move(void) noexcept;
-
-    //   // turn functions
-    //   void TurnLeft(void) noexcept;
-
-    //   void TurnRight(void) noexcept;
-
-    //   void Fast(void) noexcept; // switch to fast condition
-
-    //   bool isFast(void) const noexcept; // query the current fast condition
 };
 } // namespace adas

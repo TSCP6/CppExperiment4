@@ -18,6 +18,13 @@ class FastCommand final {
     };
 };
 
+class ReverseCommand final {
+  public:
+    void operator()(PoseHandler &poseHandler) const noexcept {
+        poseHandler.Reverse();
+    };
+};
+
 // define a nested class
 class MoveCommand final {
   public:
@@ -36,9 +43,16 @@ class MoveCommand final {
     // };
     void operator()(PoseHandler &poseHandler) const noexcept {
         if (poseHandler.IsFast()) {
-            poseHandler.Move();
+            if (poseHandler.IsReverse()) {
+                poseHandler.Backward();
+            } else
+                poseHandler.Forward();
         }
-        poseHandler.Move();
+        if(poseHandler.IsReverse()){
+            poseHandler.Backward();
+        }else{
+            poseHandler.Forward();
+        }
     };
 };
 
@@ -47,9 +61,19 @@ class TurnLeftCommand final {
     // operating move function needs ExecutorImpl& executor
     void operator()(PoseHandler &poseHandler) const noexcept {
         if (poseHandler.IsFast()) {
-            poseHandler.Move();
+            if(poseHandler.IsReverse()){
+                poseHandler.Backward();
+            }
+            else{
+                poseHandler.Forward();
+            }
         }
-        poseHandler.TurnLeft();
+        if(poseHandler.IsReverse()){
+            poseHandler.TurnRight();
+        }
+        else{
+            poseHandler.TurnLeft();
+        }
     };
 };
 
@@ -58,9 +82,17 @@ class TurnRightCommand final {
     // operating move function needs ExecutorImpl& executor
     void operator()(PoseHandler &poseHandler) const noexcept {
         if (poseHandler.IsFast()) {
-            poseHandler.Move();
+            if (poseHandler.IsReverse()) {
+                poseHandler.Backward();
+            } else {
+                poseHandler.Forward();
+            }
         }
-        poseHandler.TurnRight();
+        if (poseHandler.IsReverse()) {
+            poseHandler.TurnLeft();
+        } else {
+            poseHandler.TurnRight();
+        }
     };
 };
 } // namespace adas

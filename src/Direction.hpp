@@ -11,7 +11,8 @@ class Direction final{
     Direction(const unsigned index, const char heading) noexcept;
     
   public:
-    const Point& Move(void) const noexcept;
+    const Point& Forward(void) const noexcept;
+    const Point& Backward(void) const noexcept;
     const Direction& LeftOne(void) const noexcept;
     const Direction& RightOne(void) const noexcept;
 

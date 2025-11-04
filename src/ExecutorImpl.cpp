@@ -1,9 +1,12 @@
 #include "ExecutorImpl.hpp"
-#include "Command.hpp"
+// #include "Command.hpp"
+#include "CmderFactory.hpp"
+#include "Singleton.hpp"
 
-#include <unordered_map>
-#include <memory>
-#include <new>
+#include <algorithm>
+// #include <unordered_map>
+// #include <memory>
+// #include <new>
 
 namespace adas {
 //: pose(pose) assign the param pose with current pose
@@ -24,21 +27,14 @@ Executor *Executor::NewExecutor(const Pose &pose) noexcept {
 }
 
 void ExecutorImpl::Execute(const std::string &commands) noexcept {
-    std::unordered_map<char, std::function<void(PoseHandler& PoseHandler)>> cmderMap {
-        {'M', MoveCommand()},
-        {'L', TurnLeftCommand()},
-        {'R', TurnRightCommand()},
-        {'F', FastCommand()},
-        {'B', ReverseCommand()},
-    };
+    const auto cmders = Singleton<CmderFactory>::Instance().GetCmders(commands);
 
-    for (const auto cmd : commands) {
-        const auto it = cmderMap.find(cmd);
-
-        if (it != cmderMap.end()) { //search failure returns end
-            //first to key, second to value
-            it->second(poseHandler);
+    std::for_each(
+        cmders.begin(),
+        cmders.end(),
+        [this](const std::function<void(PoseHandler &poseHandler)> &cmder) noexcept {
+            cmder(poseHandler);
         }
-    }
+    );
 }
 } // namespace adas

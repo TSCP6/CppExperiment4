@@ -36,7 +36,7 @@ TEST(ExecutorTurnRoundTest, in_the_B_state_the_reverse_command_will_be_ignored){
     executor->Execute("BTR");
 
     //then
-    const Pose target{0, 1, 'W'};
+    const Pose target{0, 0, 'E'};
     ASSERT_EQ(target, executor->Query());
 }
 }

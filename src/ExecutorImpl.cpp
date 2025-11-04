@@ -1,6 +1,7 @@
 #include "ExecutorImpl.hpp"
 #include "Command.hpp"
 
+#include <unordered_map>
 #include <memory>
 #include <new>
 
@@ -23,29 +24,20 @@ Executor *Executor::NewExecutor(const Pose &pose) noexcept {
 }
 
 void ExecutorImpl::Execute(const std::string &commands) noexcept {
-    for (const auto cmd : commands) {
-        std::unique_ptr<ICommand> cmder;
-        if (cmd == 'M') {
-            // use unique pointer for MoveCommand instantiation, don't worry about delete
-            //  std::unique_ptr<MoveCommand>cmder = std::make_unique<MoveCommand>();
-            cmder = std::make_unique<MoveCommand>();
-            //*this is the instantiated object
-        } else if (cmd == 'L') {
-            // std::unique_ptr<MoveCommand> Mcmder = std::make_unique<MoveCommand>();
-            // std::unique_ptr<TurnLeftCommand>Lcmder = std::make_unique<TurnLeftCommand>();
-            cmder = std::make_unique<TurnLeftCommand>();
-        } else if (cmd == 'R') {
-            // std::unique_ptr<MoveCommand> Mcmder = std::make_unique<MoveCommand>();
-            // std::unique_ptr<TurnRightCommand> Rcmder = std::make_unique<TurnRightCommand>();
-            cmder = std::make_unique<TurnRightCommand>();
-        } else if (cmd == 'F') {
-            cmder = std::make_unique<FastCommand>();
-        }
+    std::unordered_map<char, std::unique_ptr<MoveCommand>> cmderMap;
+    
+    //finish the map between command and operator
+    cmderMap.emplace('M', std::make_unique<MoveCommand>());
+    cmderMap.emplace('L', std::make_unique<TurnLeftCommand>());
+    cmderMap.emplace('R', std::make_unique<TurnRightCommand>());
+    cmderMap.emplace('F', std::make_unique<FastCommand>());
 
-        if (cmder) {
-            cmder->DoOperate(poseHandler);
+    for (const auto cmd : commands) {
+        const auto it = cmderMap.find(cmd);
+
+        if (it != cmderMap.end()) { //search failure returns end
+            //first to key, second to value
+            it->second->DoOperate(poseHandler);
         }
     }
-}
-
 } // namespace adas

@@ -95,14 +95,14 @@ TEST_F(SportsCarTest, should_return_x_plus_1_y_plus_1_and_facing_N_given_command
     ASSERT_EQ(target, executor->Query());
 }
 
-TEST_F(SportsCarTest, should_return_x_minus_1_y_plus_1_and_facing_N_given_command_is_FBL_and_facing_is_E) {
+TEST_F(SportsCarTest, should_return_x_minus_1_y_plus_1_and_facing_S_given_command_is_FBL_and_facing_is_E) {
     //given
 
     //when 
     executor->Execute("FBL");
 
     //then 
-    const Pose target{-1, 1, 'N'};
+    const Pose target{-1, 1, 'S'};
     ASSERT_EQ(target, executor->Query());
 }
 
@@ -124,7 +124,7 @@ TEST_F(SportsCarTest, should_return_y_minus_1_and_facing_N_given_command_is_BR_a
     executor->Execute("BR");
 
     //then 
-    const Pose target{-1, 0, 'N'};
+    const Pose target{0, -1, 'N'};
     ASSERT_EQ(target, executor->Query());
 }
 

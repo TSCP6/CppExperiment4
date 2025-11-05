@@ -10,6 +10,11 @@ namespace adas
 
     }
 
+    ActionGroup& ActionGroup::operator+=(const ActionGroup& rhs) noexcept {
+        this->actions.insert(this->actions.end(), rhs.actions.begin(), rhs.actions.end());
+        return *this;
+    }
+
     class ForwardAction final {
         public:
         void operator()(PoseHandler& poseHandler) const noexcept {

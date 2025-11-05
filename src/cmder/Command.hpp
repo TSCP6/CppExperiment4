@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ActionGroup.hpp"
+#include "CmderOrchestrator.hpp"
 #include "core/PoseHandler.hpp"
 
 #include <functional>
@@ -28,7 +28,7 @@ class MoveCommand final {
     //     }
     //     poseHandler.Move();
     // };
-    ActionGroup operator()(PoseHandler &poseHandler) const noexcept {
+    ActionGroup operator()(PoseHandler &poseHandler, const CmderOrchestrator& orchestrator) const noexcept {
         // if (poseHandler.IsFast()) {
         //     if (poseHandler.IsReverse()) {
         //         poseHandler.Backward();
@@ -41,66 +41,40 @@ class MoveCommand final {
         //     poseHandler.Forward();
         // }
 
-        ActionGroup actionGroup;
+        // ActionGroup actionGroup;
 
-        const auto action =
-            poseHandler.IsReverse() ? ActionType::BACKWARD_1_STEP_ACTION : ActionType::FORWARD_1_STEP_ACTION;
+        // const auto action =
+        //     poseHandler.IsReverse() ? ActionType::BACKWARD_1_STEP_ACTION : ActionType::FORWARD_1_STEP_ACTION;
 
-        if (poseHandler.IsFast()) {
-            actionGroup.PushAction(action); // when in fast state, move one more
-        }
+        // if (poseHandler.IsFast()) {
+        //     actionGroup.PushAction(action); // when in fast state, move one more
+        // }
 
-        actionGroup.PushAction(action);
+        // actionGroup.PushAction(action);
 
-        return actionGroup;
+        return orchestrator.Move(poseHandler);
     };
 };
 
 class TurnLeftCommand final {
   public:
     // operating move function needs ExecutorImpl& executor
-    ActionGroup operator()(PoseHandler &poseHandler) const noexcept {
-        ActionGroup actionGroup;
-
-        const auto action =
-            poseHandler.IsReverse() ? ActionType::BACKWARD_1_STEP_ACTION : ActionType::FORWARD_1_STEP_ACTION;
-
-        const auto turnLeft =
-            poseHandler.IsReverse() ? ActionType::REVERSE_TURN_LEFT_ACTION : ActionType::TURNLEFT_ACTION;
-
-        if (poseHandler.IsFast()) {
-            actionGroup.PushAction(action);
-        }
-        actionGroup.PushAction(turnLeft);
-
-        return actionGroup;
+    ActionGroup operator()(PoseHandler &poseHandler, const CmderOrchestrator &orchestrator) const noexcept {
+        return orchestrator.TurnLeft(poseHandler);
     };
 };
 
 class TurnRightCommand final {
   public:
     // operating move function needs ExecutorImpl& executor
-    ActionGroup operator()(PoseHandler &poseHandler) const noexcept {
-        ActionGroup actionGroup;
-
-        const auto action =
-            poseHandler.IsReverse() ? ActionType::BACKWARD_1_STEP_ACTION : ActionType::FORWARD_1_STEP_ACTION;
-
-        const auto turnRight =
-            poseHandler.IsReverse() ? ActionType::REVERSE_TURN_RIGHT_ACTION : ActionType::TURNRIGHT_ACTION;
-
-        if (poseHandler.IsFast()) {
-            actionGroup.PushAction(action);
-        }
-        actionGroup.PushAction(turnRight);
-
-        return actionGroup;
+    ActionGroup operator()(PoseHandler &poseHandler, const CmderOrchestrator &orchestrator) const noexcept {
+        return orchestrator.TurnRight(poseHandler);
     };
 };
 
 class FastCommand final {
   public:
-    ActionGroup operator()(PoseHandler &poseHandler) const noexcept {
+    ActionGroup operator()(PoseHandler &poseHandler, const CmderOrchestrator &orchestrator) const noexcept {
         ActionGroup actionGroup;
         actionGroup.PushAction(ActionType::BE_FAST_ACTION);
         return actionGroup;
@@ -109,7 +83,7 @@ class FastCommand final {
 
 class ReverseCommand final {
   public:
-    ActionGroup operator()(PoseHandler &poseHandler) const noexcept {
+    ActionGroup operator()(PoseHandler &poseHandler, const CmderOrchestrator &orchestrator) const noexcept {
         ActionGroup actionGroup;
         actionGroup.PushAction(ActionType::BE_REVERSE_ACTION);
         return actionGroup;
@@ -118,27 +92,8 @@ class ReverseCommand final {
 
 class TurnRoundCommand final {
   public:
-    ActionGroup operator()(PoseHandler& poseHandler) const noexcept{
-        if(poseHandler.IsReverse()){
-            return ActionGroup();
-        }
-        else{
-            if(poseHandler.IsFast()){
-                return ActionGroup({
-                    ActionType::FORWARD_1_STEP_ACTION,
-                    ActionType::TURNLEFT_ACTION,
-                    ActionType::FORWARD_1_STEP_ACTION,
-                    ActionType::TURNLEFT_ACTION,
-                });
-            }
-            else{
-                return ActionGroup({
-                    ActionType::TURNLEFT_ACTION,
-                    ActionType::FORWARD_1_STEP_ACTION,
-                    ActionType::TURNLEFT_ACTION,
-                });
-            }
-        }
+    ActionGroup operator()(PoseHandler &poseHandler, const CmderOrchestrator &orchestrator) const noexcept {
+        return orchestrator.TurnRound(poseHandler);
     };
 };
 

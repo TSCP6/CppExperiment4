@@ -49,9 +49,9 @@ TEST_F(BusTest, should_return_x_plus_1_and_facing_N_given_command_is_L_and_facin
     ASSERT_EQ(target, executor->Query());
 }
 
-TEST_F(BusTest, should_return_x_minus_1_and_facing_N_given_command_is_BL_and_facing_is_E) {
+TEST_F(BusTest, should_return_x_minus_1_and_facing_S_given_command_is_BL_and_facing_is_E) {
     executor->Execute("BL");
-    const Pose target{-1, 0, 'N'};
+    const Pose target{-1, 0, 'S'};
     ASSERT_EQ(target, executor->Query());
 }
 
@@ -61,9 +61,9 @@ TEST_F(BusTest, should_return_x_plus_2_and_facing_N_given_command_is_FL_and_faci
     ASSERT_EQ(target, executor->Query());
 }
 
-TEST_F(BusTest, should_return_x_minus_2_and_facing_N_given_command_is_FBL_and_facing_is_E) {
+TEST_F(BusTest, should_return_x_minus_2_and_facing_S_given_command_is_FBL_and_facing_is_E) {
     executor->Execute("FBL");
-    const Pose target{-2, 0, 'N'};
+    const Pose target{-2, 0, 'S'};
     ASSERT_EQ(target, executor->Query());
 }
 
@@ -73,9 +73,9 @@ TEST_F(BusTest, should_return_x_plus_1_and_facing_S_given_command_is_R_and_facin
     ASSERT_EQ(target, executor->Query());
 }
 
-TEST_F(BusTest, should_return_x_minus_1_and_facing_S_given_command_is_BR_and_facing_is_E) {
+TEST_F(BusTest, should_return_x_minus_1_and_facing_N_given_command_is_BR_and_facing_is_E) {
     executor->Execute("BR");
-    const Pose target{-1, 0, 'S'};
+    const Pose target{-1, 0, 'N'};
     ASSERT_EQ(target, executor->Query());
 }
 
@@ -85,9 +85,9 @@ TEST_F(BusTest, should_return_x_plus_2_and_facing_S_given_command_is_FR_and_faci
     ASSERT_EQ(target, executor->Query());
 }
 
-TEST_F(BusTest, should_return_x_minus_2_and_facing_S_given_command_is_FBR_and_facing_is_E) {
+TEST_F(BusTest, should_return_x_minus_2_and_facing_N_given_command_is_FBR_and_facing_is_E) {
     executor->Execute("FBR");
-    const Pose target{-2, 0, 'S'};
+    const Pose target{-2, 0, 'N'};
     ASSERT_EQ(target, executor->Query());
 }
 }

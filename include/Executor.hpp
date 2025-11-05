@@ -9,12 +9,21 @@ struct Pose {
     char heading; // N,S,E,W四个方向
 };
 
+// car type enum
+enum class ExecutorType {
+    NORMAL,
+    SPORTS_CAR,
+    BUS,
+};
+
 // car's executor interface
 class Executor {
   public:
     // create an Executor object, return a pointer
     // caller should delete *executor when it's not needed
-    static Executor *NewExecutor(const Pose &pose = {0, 0, 'N'}) noexcept;
+    static Executor *NewExecutor(
+      const Pose &pose = {0, 0, 'N'},
+      const ExecutorType executorType = ExecutorType::NORMAL) noexcept;
 
   public:
     Executor(void) = default;
